@@ -4,7 +4,7 @@
 #include <thread>
 #include <string>
 #include <chrono>
-
+#include <condition_variable>
 
 /*	-----INSTRUCTIONS-----
 
@@ -67,47 +67,35 @@ main: starting all threads
 	to protect a common resource in your threading example from #3 and #4
 */
 
-
 //Header file to implement "lock_guard"
-
 std::mutex mut;
+std::condition_variable cv;
+std::string data;
 
-//prototype
-void func();
+/*
+class Counter {
 
+public:
+	Counter(int id, int numIterations) : mID(id), mNumIterations(numIterations) {
 
-void func() {
-	mut.lock(); //lock it
-
-	std::cout << "Starting Thread, " << std::this_thread::get_id() << std::endl; //enter the thread 
-	std::this_thread::sleep_for(std::chrono::seconds(rand() % 10)); //timer 1 second 
-	std::cout << "Waiting Thread " << std::this_thread::get_id() << std::endl;
-	
-	mut.unlock(); //unlock the mutex
-}
-
-
-
-
-
-
-
-
-
-/*void sharedThread(std::string msg, int id) {
-	mut.lock(); //lock first
-	std::cout << msg << ":" << id << std::endl;
-	mut.unlock(); //unlock
-}
-
-
-void threadFunction1() {
-	//std::cout << "Thread: 1 ";
-	for (int i = 5; i > 0; i--) {
-		sharedThread("Thread function " , i);
-		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
-}*/
+
+	void operator()() const {
+		for (int i = 0; i < mNumIterations; i++) {
+			lock_guard<mutex> lock(mut); //implement lock_guard to protect data at each iteration
+			cout << "Counter " << mID << " = ";
+			cout << i << endl;
+		}
+	}
+
+private:
+	int mID;
+	int mNumIterations;
+	mutex mut;
+
+};
+
+*/
 
 
 
